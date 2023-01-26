@@ -1,0 +1,4 @@
+name: TofuDailyTask
+version: '${project.version}'
+main: cn.ricetofu.task.TofuDailyTask
+description: 一款简单的每日任务插件捏

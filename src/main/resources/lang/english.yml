@@ -1,0 +1,18 @@
+#
+# English player message file
+#
+
+# Prefix for sending messages
+prefix: §a[§bTofuDailyTask§a]§f|
+
+# Player received daily task messages
+get_daily_tasks: Hello!You have been given daily tasks,use /task to view.
+
+# The player completed a small daily task.Use %name% to represent the name variable of this task
+one_task_finished: You have successfully completed the:%name%.
+
+# Players have completed all the small daily tasks
+all_task_finished: You have successfully completed all the daily tasks. Get the rewards quickly!
+
+# Players receive rewards for daily tasks
+get_daily_rewards: You have successfully received the daily task reward. Remember to come again tomorrow!

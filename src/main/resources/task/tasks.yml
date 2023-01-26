@@ -1,0 +1,21 @@
+
+
+test_get:
+  type: get
+  name: 采蘑菇的小菇凉
+  display: \%id\%
+  lore:
+    - 挖掘%name%:%amount%个
+    - 已完成:%finished%个
+  weight: 100
+  enable: true
+  args:
+    [
+      {
+
+      },
+      {
+
+
+      }
+    ]

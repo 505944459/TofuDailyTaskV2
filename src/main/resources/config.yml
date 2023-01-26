@@ -1,0 +1,58 @@
+# 欢迎使用~~豆腐每日任务插件
+# 是一个新人开发者的第一个作品捏~
+# 如果觉得好用的话，评分鼓励我一下吧，求求了~
+# https://www.mcbbs.net/thread-1420397-1-1.html
+# 如果有插件相关的问题、建议也可以在本帖下回复，我看到后一般都会回复哦~
+
+#插件的版本（不建议修改此项）
+version: 2.0
+
+#插件的语言文件（无控制台提示）, ./ 表示插件的配置文件夹
+lang_file: ./lang/chinese-simple.yml
+
+#插件的任务配置文件夹地址 , ./ 表示插件的配置文件夹
+task_dir: ./task
+
+#每日任务的小任务个数 (1-10)，注意要小于等于当前配置文件中总共的任务数
+daily_tasks: 3
+
+#每日任务的小任务允许更换的次数，为-1则可以无限制更换小任务
+change_times: 3
+
+#每日任务的完成奖励，详细配置教程请看文档或者视频
+rewards:
+  stone:
+    name: 石头64个
+    message: 石头*64
+    command: give %player% stone 64
+  dirt:
+    name: 泥土16-100个
+    message: 泥土 * %random%
+    command: give %player% dirt %random%
+    random:
+      - 16 100
+      - 32 50
+      - 64 25
+      - 128 12
+  points:
+    name: 【VIP】点券10-100点
+    message: 点券 * %random%
+    permission: permission.vip
+    command: points give %player% %random%
+    random:
+      - 10 50
+      - 20 25
+      - 25 25
+      - 50 10
+      - 100 5
+
+#是否完成后自动领取每日任务奖励，物品奖励可能会在玩家满背包时被吞
+auto_reward: false
+
+#数据的存储类型,设置为mysql可以用数据库实现多端数据同步
+data_type: local
+#data-type为mysql时生效
+mysql_host: 127.0.0.1:3306 #主机地址，域名+端口号
+mysql_database: test #数据库的名称
+mysql_username: root #数据库的用户名
+mysql_password: 123456 #数据库的密码
