@@ -7,7 +7,6 @@ import cn.ricetofu.task.core.task.config.TaskInfo;
 import cn.ricetofu.task.util.WeightShuffle;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -49,7 +48,7 @@ public class TaskManager {
         PlayerData playerData = getPlayerDataById(player_id);
         if(playerData.isReceivedToday())return false;
         Collection<TaskInfo> values = allTaskInfoMap.values();
-        List<TaskInfo> random = WeightShuffle.getRandomTaskInfoByWeight(values, 2);
+        List<TaskInfo> random = WeightShuffle.getRandomTaskInfoByWeight(values, 3);
 
         List<Task> tasks = new LinkedList<>();
         for (TaskInfo taskInfo : random) {

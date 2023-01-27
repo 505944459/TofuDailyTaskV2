@@ -46,8 +46,5 @@ public class GetListener implements Listener {
                 if(task.isFinish())TaskManager.finish_one(player.getUniqueId().toString(),task.getTaskInfo().getId());//完成任务
             }
         }
-
-
     }
-
 }

@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Date;
 import java.util.logging.Logger;
 
 
@@ -37,7 +38,16 @@ public final class TofuDailyTask extends JavaPlugin {
         //一些默认文件夹的创建操作等……
         saveDefaultConfig();//保存默认的config.yml配置文件
         dataFolder = getDataFolder();//目录根
+        //数据文件夹
+        File data = new File(dataFolder, "data");
+        if(!data.exists())data.mkdirs();
+        //任务文件夹
+        File task = new File(data,"task");
+        if(!task.exists()) {
+            task.mkdirs();
+            //输出默认的任务文件
 
+        }
 
 
         //加载config配置文件
@@ -102,6 +112,11 @@ public final class TofuDailyTask extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BreakListener(),this);//方块破坏事件(方块破坏任务)
         Bukkit.getPluginManager().registerEvents(new GetListener(),this);//掉落物拾取事件(物品获取任务)
         Bukkit.getPluginManager().registerEvents(new ThrowListener(),this);//玩家扔出物品时间(物品获取任务，用于防止自放自拾的刷任务行为)
+        if(Bukkit.getPluginManager().getPlugin("MythicMobs")!=null){
+            //存在mm插件，开启对mm实体的特殊支持
+            logger.info(prefix+"检测到MythicMobs插件,成功支持mm实体");
+            Bukkit.getPluginManager().registerEvents(new MythicMobDeathListener(),this);
+        }
 
         //进行指令注册
         // TODO 代码

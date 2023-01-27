@@ -8,7 +8,6 @@ import lombok.Data;
 import org.bukkit.Material;
 
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -47,26 +46,37 @@ public class Task{
      * 获取当前任务的显示物品
      * */
     public Material getDisplayItem(){
-        // TODO
         // 变量解析
-        return Material.matchMaterial(taskInfo.getDisplay());
+        return Material.matchMaterial(taskInfo.getDisplay().replace("%item%",args.getItem()));
     }
 
     /**
      * 获取当前任务的显示名称(变量解析后)
      * */
     public String getParsedName(){
-        // TODO
         // 变量解析
-        return taskInfo.getName();
+        return taskInfo.getName()
+                .replace("%name%",args.getName())
+                .replace("%item%",args.getItem())
+                .replace("%entity%",args.getEntity())
+                .replace("%amount%",args.getAmount()+"")
+                .replace("%finish%",finish+"");
     }
 
     /**
      * 获取当前任务的显示Lore(变量解析后)
      * */
     public List<String> getParsedLore(){
-        // TODO
         // 变量解析
+        for (int i = 0; i < taskInfo.getLore().size(); i++) {
+            taskInfo.getLore().set(i,taskInfo.getLore().remove(i)
+                    .replace("%name%",args.getName())
+                    .replace("%item%",args.getItem())
+                    .replace("%entity%",args.getEntity())
+                    .replace("%amount%",args.getAmount()+"")
+                    .replace("%finish%",finish+"")
+            );
+        }
         return taskInfo.getLore();
     }
 
