@@ -4,7 +4,6 @@ import cn.ricetofu.task.core.data.PlayerData;
 import cn.ricetofu.task.core.task.Task;
 import cn.ricetofu.task.core.task.TaskManager;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

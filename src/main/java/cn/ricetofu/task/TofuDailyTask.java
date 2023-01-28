@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.Date;
 import java.util.logging.Logger;
 
 
@@ -46,29 +45,28 @@ public final class TofuDailyTask extends JavaPlugin {
         if(!task.exists()) {
             task.mkdirs();
             //输出默认的任务文件
-
         }
 
 
         //加载config配置文件
-        logger.info(prefix+"正在加载: config.yml");
+        //logger.info(prefix+"正在加载: config.yml");
         if (!Config.init(YamlConfiguration.loadConfiguration(new File(dataFolder,"config.yml")))) {
             //加载失败则退出
             logger.severe(prefix+"config.yml加载失败");
             Bukkit.getPluginManager().disablePlugin(this);//卸载插件
             return;
         }
-        logger.info(prefix+"config.yml加载成功");
+        //logger.info(prefix+"config.yml加载成功");
 
         //加载消息文件
-        logger.info(prefix+"正在加载:"+Config.getLang_file());
+        //logger.info(prefix+"正在加载:"+Config.getLang_file());
         if (!Message.init(YamlConfiguration.loadConfiguration(new File(dataFolder, Config.getLang_file())))) {
             //加载失败则退出
             logger.severe(prefix+Config.getLang_file()+"加载失败");
             Bukkit.getPluginManager().disablePlugin(this);//卸载插件
             return;
         }
-        logger.info(prefix+Config.getLang_file()+"加载成功");
+        //logger.info(prefix+Config.getLang_file()+"加载成功");
 
         //初始化数据管理器和任务管理器
         logger.info(prefix+"初始化任务管理器和数据管理器");
@@ -111,7 +109,7 @@ public final class TofuDailyTask extends JavaPlugin {
         //任务事件
         Bukkit.getPluginManager().registerEvents(new BreakListener(),this);//方块破坏事件(方块破坏任务)
         Bukkit.getPluginManager().registerEvents(new GetListener(),this);//掉落物拾取事件(物品获取任务)
-        Bukkit.getPluginManager().registerEvents(new ThrowListener(),this);//玩家扔出物品时间(物品获取任务，用于防止自放自拾的刷任务行为)
+        Bukkit.getPluginManager().registerEvents(new ThrowListener(),this);//玩家扔出物品事件(物品获取任务，用于防止自放自拾的刷任务行为)
         if(Bukkit.getPluginManager().getPlugin("MythicMobs")!=null){
             //存在mm插件，开启对mm实体的特殊支持
             logger.info(prefix+"检测到MythicMobs插件,成功支持mm实体");
@@ -129,7 +127,6 @@ public final class TofuDailyTask extends JavaPlugin {
     @Override
     public void onDisable() {
         //玩家数据的保存操作
-
 
 
     }

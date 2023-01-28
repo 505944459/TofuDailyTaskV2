@@ -66,6 +66,7 @@
     </repositories>
 
     <dependencies>
+        <!--bukkit-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>

@@ -42,6 +42,8 @@ public class TaskManager {
 
     /**
      * 玩家领取每日任务的方法
+     * @param player_id 玩家uuid
+     * @return 是否成功
      * */
     public static boolean getDailyTask(String player_id){
 

@@ -16,7 +16,7 @@ import java.util.Map;
  * */
 public class LocalDataManager implements DataManager {
 
-    //玩家数据表
+    //玩家数据内存缓存表
     private final Map<String,PlayerData> playerDataMap = new HashMap<>();
 
     //json解析对象
