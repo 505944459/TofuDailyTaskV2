@@ -4,11 +4,13 @@ import cn.ricetofu.task.config.Config;
 import cn.ricetofu.task.config.Message;
 import cn.ricetofu.task.core.data.LocalDataManager;
 import cn.ricetofu.task.core.data.MysqlDataManager;
+import cn.ricetofu.task.core.gui.DefaultGUI;
 import cn.ricetofu.task.core.task.TaskLoader;
 import cn.ricetofu.task.core.task.TaskManager;
 import cn.ricetofu.task.events.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -117,7 +119,9 @@ public final class TofuDailyTask extends JavaPlugin {
         }
 
         //进行指令注册
-        // TODO 代码
+        Bukkit.getPluginCommand("task").setExecutor(new DefaultGUI());//task指令，用于打开一个GUI
+        Bukkit.getPluginManager().registerEvents(new DefaultGUI(),this);//GUI相关事件监听
+
 
 
 

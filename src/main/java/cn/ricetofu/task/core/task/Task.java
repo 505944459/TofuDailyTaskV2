@@ -7,6 +7,7 @@ import cn.ricetofu.task.util.WeightShuffle;
 import lombok.Data;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -67,17 +68,16 @@ public class Task{
      * 获取当前任务的显示Lore(变量解析后)
      * */
     public List<String> getParsedLore(){
-        // 变量解析
-        for (int i = 0; i < taskInfo.getLore().size(); i++) {
-            taskInfo.getLore().set(i,taskInfo.getLore().remove(i)
-                    .replace("%name%",args.getName())
+        List<String> lore = taskInfo.getLore();
+        List<String> returnLore = new ArrayList<>();
+        for (String s : lore) {
+            returnLore.add(s.replace("%name%",args.getName())
                     .replace("%item%",args.getItem())
                     .replace("%entity%",args.getEntity())
                     .replace("%amount%",args.getAmount()+"")
-                    .replace("%finish%",finish+"")
-            );
+                    .replace("%finish%",finish+""));
         }
-        return taskInfo.getLore();
+        return returnLore;
     }
 
 

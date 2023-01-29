@@ -1,5 +1,6 @@
 package cn.ricetofu.task.core.task;
 
+import cn.ricetofu.task.config.Config;
 import cn.ricetofu.task.config.Message;
 import cn.ricetofu.task.core.data.PlayerData;
 import cn.ricetofu.task.core.data.DataManager;
@@ -50,7 +51,9 @@ public class TaskManager {
         PlayerData playerData = getPlayerDataById(player_id);
         if(playerData.isReceivedToday())return false;
         Collection<TaskInfo> values = allTaskInfoMap.values();
-        List<TaskInfo> random = WeightShuffle.getRandomTaskInfoByWeight(values, 3);
+
+        //随机获取指定个数的任务
+        List<TaskInfo> random = WeightShuffle.getRandomTaskInfoByWeight(values, Config.getDaily_tasks());
 
         List<Task> tasks = new LinkedList<>();
         for (TaskInfo taskInfo : random) {

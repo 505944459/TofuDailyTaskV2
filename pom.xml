@@ -96,6 +96,11 @@
             <scope>provided</scope>
         </dependency>
 
-
+        <!--跨版本-->
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>9.2.0</version>
+        </dependency>
     </dependencies>
 </project>

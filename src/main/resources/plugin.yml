@@ -2,3 +2,24 @@ name: TofuDailyTask
 version: '${project.version}'
 main: cn.ricetofu.task.TofuDailyTask
 description: 一款简单的每日任务插件捏
+website: www.ricetofu.cn
+api-version: "1.13"
+commands:
+  task:
+    description: 玩家默认指令，打开一个显示任务的GUI窗口
+    usage: /task
+  admin-list:
+    description: 列出当前加载了的所有任务id、名字以及启用状态
+    usage: /task list
+    permission: TofuDailyTask.list
+    permission-message: 你没有权限使用这个指令哦~~
+  admin-get:
+    description: 直接获取一个每日任务，这个任务可以是未启用的任务(测试用途建议)
+    usage: /task get <task_id>
+    permission: TofuDailyTask.get
+    permission-message: 你没有权限使用这个指令哦~~
+  admin-reward:
+    description: 获取一次每日任务的奖励(测试用途建议)
+    usage: /task reward
+    permission: TofuDailyTask.reward
+    permission-message: 你没有权限使用这个指令哦~~

@@ -5,9 +5,13 @@ import cn.ricetofu.task.config.Config;
 import cn.ricetofu.task.core.task.Task;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -41,7 +45,7 @@ public class MysqlDataManager implements DataManager{
         }
 
         //连接获取
-        String url = "jdbc:mysql://" + Config.getMysql_host()+"/"+ Config.getMysql_database()+"?useSSL=false";
+        String url = "jdbc:mysql://" + Config.getMysql_host()+"/"+ Config.getMysql_database()+"?useSSL=false&characterEncoding=utf-8";
         String username = Config.getMysql_username();
         String password = Config.getMysql_password();
         try {
@@ -150,7 +154,8 @@ public class MysqlDataManager implements DataManager{
             statement.setString(2,playerData.getLast_finish_date());
             statement.setString(3,playerData.getLast_reward_date());
             statement.setInt(4,playerData.getFinished_times());
-            statement.setString(5, gson.toJson(playerData.getTasks()));
+            String s = gson.toJson(playerData.getTasks());
+            statement.setString(5, s);
             statement.setString(6,player_id);
             statement.execute();
         }catch (SQLException e){
