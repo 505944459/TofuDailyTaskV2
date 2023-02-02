@@ -88,3 +88,69 @@ test_craft:
       item: "golden_apple"
       amount: 1
       weight: 100
+#测试eat
+test_eat:
+  type: "eat"
+  name: "吃金苹果"
+  display: "golden_apple"
+  lore:
+    - "吃掉%amount%个金苹果"
+    - "已完成%finish%个"
+  weight: 100
+  enable: true
+  args:
+    - name: "金苹果"
+      item: "golden_apple"
+      amount: 1
+      weight: 100
+#测试fish
+test_fish:
+  type: "fish"
+  name: "钓鱼"
+  display: "349"
+  lore:
+    - "成功钓上来%amount%条鱼"
+    - "已经钓上来了%finish%条"
+  weight: 100
+  enable: true
+  args:
+    - name: "鱼"
+      item: "349"
+      amount: 1
+      weight: 100
+    - name: "鱼"
+      item: "349"
+      amount: 2
+      weight: 200
+    - name: "鱼"
+      item: "349"
+      amount: 3
+      weight: 100
+#测试destroy
+test_destroy:
+  type: "destroy"
+  name: "用坏一个金铲子"
+  display: "284"
+  lore:
+    - "已完成%amount%次"
+  weight: 100
+  enable: true
+  args:
+    - name: "金铲"
+      item: "284"
+      amount: 1
+      weight: 100
+#测试enchant
+test_enchant:
+  type: "enchant"
+  name: "附魔师"
+  display: "116"
+  lore:
+    - "进行%amount%附魔"
+    - "已完成%finish%次"
+  weight: 100
+  enable: true
+  args:
+    - name: "附魔"
+      amount: 2 #这里也可以限制附魔的物品(可以加item属性)
+      weight: 100

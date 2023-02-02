@@ -1,8 +1,10 @@
 package cn.ricetofu.task.util;
 
+import cn.ricetofu.task.TofuDailyTask;
 import cn.ricetofu.task.core.Weighable;
 import cn.ricetofu.task.core.task.config.TaskArgs;
 import cn.ricetofu.task.core.task.config.TaskInfo;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 
@@ -55,6 +57,11 @@ public class WeightShuffle {
                 had.remove(i);
                 i--;
             }
+        }
+        //amount参数校验
+        if(amount>had.size()){
+            Bukkit.getLogger().warning(TofuDailyTask.prefix+"有效的任务个数为:"+had.size()+",而配置的任务个数为:"+amount+",是否配置错误?");
+            amount = had.size();
         }
 
         //先按照权重排序，权重越小的会越靠前

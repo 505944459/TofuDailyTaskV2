@@ -15,6 +15,7 @@ import cn.ricetofu.task.events.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -165,6 +166,9 @@ public final class TofuDailyTask extends JavaPlugin {
         }
         Bukkit.getPluginManager().registerEvents(new CraftListener(),this);//物品合成事件(物品合成任务)
         Bukkit.getPluginManager().registerEvents(new EatListener(),this);//物品使用事件(物品使用任务)
+        Bukkit.getPluginManager().registerEvents(new FishListener(),this);//钓鱼事件监听(钓鱼任务)
+        Bukkit.getPluginManager().registerEvents(new DestroyListener(),this);//工具损坏事件(损坏任务)
+        Bukkit.getPluginManager().registerEvents(new EnchantListener(),this);//附魔监听事件(附魔任务)
         //GUI
         Bukkit.getPluginManager().registerEvents(new DefaultGUI(),this);//GUI相关事件监听
 
