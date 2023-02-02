@@ -2,13 +2,19 @@ package cn.ricetofu.task.core.task;
 
 
 import cn.ricetofu.task.TofuDailyTask;
+import cn.ricetofu.task.core.task.config.TaskArgs;
 import cn.ricetofu.task.core.task.config.TaskInfo;
 import cn.ricetofu.task.core.task.loader.JsonTaskLoader;
 import cn.ricetofu.task.core.task.loader.YamlTaskLoader;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * @Author: RiceTofu123
@@ -68,16 +74,32 @@ public interface TaskLoader {
      * @return 是否是正确的
      * */
     default boolean isRightTaskInfo(TaskInfo taskInfo){
-        // TODO 代码
-        switch (taskInfo.getType()){
-            case "break":{
+        Logger logger = Bukkit.getLogger();
+        String prefix = TofuDailyTask.prefix;
+        //item和entity属性的校验
+        List<TaskArgs> args = taskInfo.getArgs();
 
-
-                break;
+        for (TaskArgs arg : args) {
+            if(!arg.getItem().equals("")){
+                if(Material.matchMaterial(arg.getItem())==null){
+                    logger.warning(prefix+"任务:"+taskInfo.getId()+"的item属性匹配失败!请检查");
+                    return false;
+                }
             }
-
+            if(!arg.getEntity().equals("")){
+                EntityType entityType = EntityType.fromName(arg.getEntity());
+                if (entityType == null) {
+                    try {
+                        int i = Integer.parseInt(arg.getEntity());
+                        entityType = EntityType.fromId(i);}
+                    catch (Exception e){}//大概率是数字转换问题，不处理
+                }
+                if(entityType==null){
+                    logger.warning(prefix+"任务:"+taskInfo.getId()+"的entity属性匹配失败!请检查");
+                    return false;
+                }
+            }
         }
-
         return true;
     }
 }

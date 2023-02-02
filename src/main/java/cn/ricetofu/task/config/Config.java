@@ -2,6 +2,7 @@ package cn.ricetofu.task.config;
 
 import cn.ricetofu.task.TofuDailyTask;
 import cn.ricetofu.task.core.reward.RewardInfo;
+import cn.ricetofu.task.core.reward.RewardManager;
 import lombok.Data;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -37,7 +39,10 @@ public class Config {
     private static Integer change_times;
     //奖励
     @Getter
-    private static List<RewardInfo> rewards;
+    private static List<RewardInfo> rewards = new ArrayList<>();
+    //是否自动领取奖励
+    @Getter
+    private static Boolean auto_reward;
     //数据库的存储类型
     @Getter
     private static String data_type;
@@ -106,8 +111,14 @@ public class Config {
             return false;
         }
 
+        if(!config.contains("auto_reward")){
+            logger.warning(prefix+"缺少配置:auto_reward,已自动填入默认值: false");
+            auto_reward = false;
+        }else auto_reward = config.getBoolean("auto_reward");
+
         if(!config.contains("data_type")){
             logger.warning(prefix+"缺少配置:data_type,已自动填入默认值: local");
+            data_type = "local";
         }else {
             data_type = config.getString("data_type");
             if(!data_type.equals("local")&&!data_type.equals("mysql")){
@@ -142,14 +153,27 @@ public class Config {
      * */
     private static boolean loadRewards(ConfigurationSection section){
 
-        /*
-        * TODO 代码完善
-        * */
-
         Set<String> keys = section.getKeys(false);
 
         for (String key : keys) {
+
+            RewardInfo rewardInfo = new RewardInfo();
+            rewardInfo.setId(key);
             ConfigurationSection reward = section.getConfigurationSection(key);
+            if(reward==null)return false;
+            if(!reward.contains("name")||!reward.contains("message")||!reward.contains("command")){
+                Bukkit.getLogger().severe(TofuDailyTask.prefix+"reward配置参数缺失或错误!请检查");
+                return false;
+            }
+            rewardInfo.setName(reward.getString("name"));
+            rewardInfo.setMessage(reward.getString("message"));
+            rewardInfo.setCommand(reward.getString("command"));
+            if(reward.contains("permission"))rewardInfo.setPermission(reward.getString("permission"));
+            if(reward.contains("random"))rewardInfo.setRandom(reward.getStringList("random"));
+
+
+            RewardManager.getRewardInfoList().add(rewardInfo);//添加进列表
+            rewards.add(rewardInfo);
         }
 
         return true;

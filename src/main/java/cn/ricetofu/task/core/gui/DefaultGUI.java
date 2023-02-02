@@ -1,12 +1,15 @@
 package cn.ricetofu.task.core.gui;
 
-import cn.ricetofu.task.TofuDailyTask;
+import cn.ricetofu.task.config.Config;
 import cn.ricetofu.task.core.data.PlayerData;
+import cn.ricetofu.task.core.reward.RewardInfo;
 import cn.ricetofu.task.core.task.Task;
 import cn.ricetofu.task.core.task.TaskManager;
+import cn.ricetofu.task.util.DateFormatter;
 import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,19 +32,10 @@ import java.util.List;
  * @Date: 2023-01-29
  * @Discription: 玩家GUI相关的指令/事件等
  * */
-public class DefaultGUI implements CommandExecutor, Listener {
+public class DefaultGUI implements Listener {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player){
-            //异步处理箱子打开事件
-            new Thread(() -> openInv(((Player) sender))).start();
-            return true;
-        }
-        return false;
-    }
 
-    public void openInv(Player player){
+    public static void openInv(Player player){
         PlayerData playerData = TaskManager.getPlayerDataById(player.getUniqueId().toString());//获取玩家数据对象
         //创建一个 6*9 大小的箱子
         Inventory inventory = Bukkit.createInventory(player, 6 * 9, "§a[§b每日任务§a]§f");
@@ -96,6 +91,26 @@ public class DefaultGUI implements CommandExecutor, Listener {
             }
         }
 
+        //放置奖励领取箱子
+        ItemStack stack = new ItemStack(Material.CHEST);
+        ItemMeta cheat_meta = stack.getItemMeta();
+        cheat_meta.setDisplayName("§a每日任务奖励");
+        lore = new ArrayList<>();
+        lore.add("§a-------------------");
+        lore.add("§f奖励内容:");
+        for (RewardInfo reward : Config.getRewards()) {
+            lore.add("   §f"+reward.getName());
+        }
+        lore.add("§a-------------------");
+        String state = "§b未知";
+        if(playerData.isRewardToday())state = "§a已领取";
+        else if(playerData.getLast_finish_date().equals(DateFormatter.format(new Date()))&&!playerData.isRewardToday())state = "§a可领取";
+        else state = "§c任务未完成";
+        lore.add("§a状态: "+state);
+        if(state.equals("§a可领取"))lore.add("§a点击这里来领取你的今日奖励~~~");
+        cheat_meta.setLore(lore);
+        stack.setItemMeta(cheat_meta);
+        inventory.setItem(5*9 + 4,stack);
 
 
         player.openInventory(inventory);

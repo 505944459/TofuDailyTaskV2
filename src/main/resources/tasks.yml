@@ -1,0 +1,90 @@
+#测试break
+test_break:
+  type: "break"
+  name: "采矿时间到!"
+  display: "%item%"
+  lore:
+    - "采集%amount%个%name%"
+    - "你目前已经采集了%finish%个"
+  weight: 100
+  enable: true
+  args:
+    - name: "铁矿石"
+      item: "15"
+      amount: 16
+      weight: 100
+    - name: "石头"
+      item: "stone"
+      amount: 64
+      weight: 100
+    - name: "煤矿石"
+      item: "16"
+      amount: 32
+      weight: 100
+#测试place
+test_place:
+  type: "place"
+  name: "建筑师"
+  display: "%item%"
+  lore:
+    - "放置%amount%个%name%"
+  weight: 100
+  enable: true
+  args:
+    - name: "石头"
+      item: "stone"
+      amount: 32
+      weight: 100
+#测试kill
+test_kill:
+  type: "kill"
+  name: "怪物猎人"
+  display: "diamond_sword"
+  lore:
+    - "击杀%amount%个%name%"
+    - "你现在已经击杀了%finish%个"
+  weight: 100
+  enable: true
+  args:
+    - name: "僵尸"
+      entity: "zombie" #如果是mm怪物则需要加上mm:前缀
+      amount: 3
+      weight: 100
+    - name: "小白"
+      entity: "skeleton"
+      amount: 2
+      weight: 100
+#测试get
+test_get:
+  type: "get"
+  name: "采%name%的小姑凉"
+  display: "%item%"
+  lore:
+    - "采集%name%"
+    - "已完成%finish%/%amount%"
+  weight: 100
+  enable: true
+  args:
+    - name: "苹果"
+      item: "apple"
+      amount: 1
+      weight: 100
+    - name: "蘑菇(灰)"
+      item: "39"
+      amount: 4
+      weight: 100
+#测试craft
+test_craft:
+  type: "craft"
+  name: "合成金苹果"
+  display: "golden_apple"
+  lore:
+    - "合成%amount%个金苹果"
+    - "已完成%finish%个"
+  weight: 100
+  enable: true
+  args:
+    - name: "金苹果"
+      item: "golden_apple"
+      amount: 1
+      weight: 100

@@ -21,5 +21,7 @@ public class RewardInfo {
 
     private String command;
 
+    private String permission;
+
     private List<String> random;
 }

@@ -2,7 +2,6 @@
 # 是一个新人开发者的第一个作品捏~
 # 如果觉得好用的话，评分鼓励我一下吧，求求了~
 # https://www.mcbbs.net/thread-1420397-1-1.html
-# 如果有插件相关的问题、建议也可以在本帖下回复，我看到后一般都会回复哦~
 
 #插件的版本（不建议修改此项）
 version: 2.0
@@ -34,17 +33,6 @@ rewards:
       - 32 50
       - 64 25
       - 128 12
-  points:
-    name: 【VIP】点券10-100点
-    message: 点券 * %random%
-    permission: permission.vip
-    command: points give %player% %random%
-    random:
-      - 10 50
-      - 20 25
-      - 25 25
-      - 50 10
-      - 100 5
 
 #是否完成后自动领取每日任务奖励，物品奖励可能会在玩家满背包时被吞
 auto_reward: false

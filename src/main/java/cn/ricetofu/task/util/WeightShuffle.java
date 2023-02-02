@@ -49,6 +49,14 @@ public class WeightShuffle {
         //返回的结果表
         List<TaskInfo> result = new ArrayList<>();
         List<TaskInfo> had = new LinkedList<>(list);
+        //排除没有开启的任务
+        for (int i = 0; i < had.size(); i++) {
+            if(!had.get(i).getEnable()){
+                had.remove(i);
+                i--;
+            }
+        }
+
         //先按照权重排序，权重越小的会越靠前
         had.sort(Comparator.comparingInt(Weighable::getWeight));
         int total = 0;//总共的权重和

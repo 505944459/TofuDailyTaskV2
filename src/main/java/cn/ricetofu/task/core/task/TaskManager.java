@@ -4,7 +4,9 @@ import cn.ricetofu.task.config.Config;
 import cn.ricetofu.task.config.Message;
 import cn.ricetofu.task.core.data.PlayerData;
 import cn.ricetofu.task.core.data.DataManager;
+import cn.ricetofu.task.core.reward.RewardManager;
 import cn.ricetofu.task.core.task.config.TaskInfo;
+import cn.ricetofu.task.util.DateFormatter;
 import cn.ricetofu.task.util.WeightShuffle;
 import lombok.Data;
 import lombok.Getter;
@@ -38,6 +40,9 @@ public class TaskManager {
      * */
     public static boolean init(DataManager data){
         dataManager = data;
+
+
+
         return true;
     }
 
@@ -48,7 +53,7 @@ public class TaskManager {
      * */
     public static boolean getDailyTask(String player_id){
 
-        PlayerData playerData = getPlayerDataById(player_id);
+        PlayerData playerData = dataManager.getOne(player_id);
         if(playerData.isReceivedToday())return false;
         Collection<TaskInfo> values = allTaskInfoMap.values();
 
@@ -60,6 +65,7 @@ public class TaskManager {
             tasks.add(new Task(taskInfo));//任务对象获取
         }
         playerData.setTasks(tasks);//设置每日任务
+        playerData.setLast_receive_date(DateFormatter.format(new Date()));//设置上次收到的时间
 
         return true;
     }
@@ -70,9 +76,31 @@ public class TaskManager {
      * @param task_id 任务的id
      * */
     public static void finish_one(String player_id,String task_id){
+        //发送提示消息
         Player player = Bukkit.getPlayer(UUID.fromString(player_id));
         TaskInfo taskInfo = allTaskInfoMap.get(task_id);
         player.sendMessage(Message.getOne_task_finished().replace("%name%",taskInfo.getName()));
+
+        //保存一遍玩家信息
+        savePlayerDataById(player_id);
+
+        //检查玩家是否已经完成了所有的任务
+        PlayerData playerData = getPlayerDataById(player_id);
+        boolean finish = true;
+        for (Task task : playerData.getTasks()) {
+            if(!task.isFinish()){
+                finish = false;
+                break;
+            }
+        }
+        //已经完成了所有任务
+        if(finish){
+            //保存完成时间
+            playerData.setLast_finish_date(DateFormatter.format(new Date()));
+
+            player.sendMessage(Message.getAll_task_finished());//玩家提示
+            if(Config.getAuto_reward()) RewardManager.getDailyTaskRewards(player_id);//自动领取奖励
+        }
     }
 
     /**
@@ -81,7 +109,16 @@ public class TaskManager {
      * @return 玩家数据对象
      * */
     public static PlayerData getPlayerDataById(String player_id){
-        return dataManager.getOne(player_id);
+        PlayerData playerData = dataManager.getOne(player_id);
+
+        // TODO 是否需要接取任务……
+        if(playerData.getTasks()==null||!playerData.getLast_reward_date().equals(DateFormatter.format(new Date()))){
+            //任务列表为空，接取任务
+            boolean dailyTask = TaskManager.getDailyTask(player_id);
+            if(dailyTask)Bukkit.getPlayer(UUID.fromString(player_id)).sendMessage(Message.getGet_daily_tasks());
+        }
+
+        return playerData;
     }
 
     /**

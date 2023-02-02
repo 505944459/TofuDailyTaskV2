@@ -39,10 +39,12 @@ public class GetListener implements Listener {
         PlayerData playerData = TaskManager.getPlayerDataById(player.getUniqueId().toString());
         for (Task task : playerData.getTasks()) {
             if(!task.isFinish()&&task.getTaskInfo().getType().equals("get")){
-                Material material = Material.matchMaterial(task.getArgs().getItem());
-                if(!material.equals(item.getItemStack().getType()))return;//类型不匹配，则返回
-                //更新完成数量，再判断一次是否完成任务
-                task.setFinish(task.getFinish()+item.getItemStack().getAmount());
+                if(!task.getArgs().getItem().equals("")) {
+                    Material material = Material.matchMaterial(task.getArgs().getItem());
+                    if (!material.equals(item.getItemStack().getType())) return;//类型不匹配，则返回
+                    //更新完成数量，再判断一次是否完成任务
+                    task.setFinish(task.getFinish() + item.getItemStack().getAmount());
+                }else task.setFinish(task.getFinish() + item.getItemStack().getAmount());
                 if(task.isFinish())TaskManager.finish_one(player.getUniqueId().toString(),task.getTaskInfo().getId());//完成任务
             }
         }
