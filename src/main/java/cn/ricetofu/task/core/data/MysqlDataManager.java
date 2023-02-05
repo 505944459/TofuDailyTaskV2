@@ -56,6 +56,24 @@ public class MysqlDataManager implements DataManager{
         }
         //如果不存在数据表则需要创建一个
         // TODO 数据表创建
+        //表创建(如果不存在)
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS `playerdailytaskdata`(\n" +
+                    "  `player_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '玩家id',\n" +
+                    "  `last_receive_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上次收到任务的时间',\n" +
+                    "  `last_finished_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上次完成任务的时间',\n" +
+                    "  `last_reward_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上次收到完成奖励的时间',\n" +
+                    "  `finished_times` int(11) NULL DEFAULT NULL COMMENT '累计完成的次数',\n" +
+                    "  `task` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '对象的json格式，包含完整数据',\n" +
+                    "  PRIMARY KEY (`player_id`) USING BTREE\n" +
+                    ") ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;");
+            statement.close();
+        }catch (SQLException e){
+            logger.severe(prefix+"数据库表创建失败");
+            return false;
+        }
 
 
         //保持Mysql连接的定时任务
